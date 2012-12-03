@@ -1,0 +1,8 @@
+RED INVADERS
+A simple Space Invaders reprise, done in Unity3D and C#
+
+It just started as a simple test to get a job, but sprung some interest in completing and upgrading it.
+
+As of now, the code is quite messy (the EnemyManager is hideous) and leaves a whole lot of room for improvement. Still, this was designed and coded in 4 days. A whole new record for me.
+
+When this Windows standalone version is done, I intend to port it to Android devices.
