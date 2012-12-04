@@ -19,7 +19,7 @@ public class CShip : MonoBehaviour, IActor {
 	private float leftLimit;
 	private float rightLimit;
 	
-	private CGameManager gamemgr;
+//	private CGameManager gamemgr;
 	
 	// ------------------------------
 	
@@ -38,7 +38,7 @@ public class CShip : MonoBehaviour, IActor {
 	
 	void Start () {
 		this.transform.position = initPos;
-		gamemgr = MonoBehaviour.FindObjectOfType(typeof(CGameManager)) as CGameManager;
+//		gamemgr = MonoBehaviour.FindObjectOfType(typeof(CGameManager)) as CGameManager;
 	}
 	
 	// ----------
@@ -58,7 +58,8 @@ public class CShip : MonoBehaviour, IActor {
 		if(coll.gameObject.tag == "enemy"){
 //			DestroyMe();
 			this.audio.Play();
-			gamemgr.Respawn(lives);
+			Managers.Audio.PlaySound(AudioManager.Sounds.explosion, this.transform.position);
+			Managers.Game.Respawn(lives);
 		}
 	}
 	

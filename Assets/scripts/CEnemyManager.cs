@@ -46,7 +46,7 @@ public class CEnemyManager : MonoBehaviour {
 	public CPool enemyBullets;
 	
 	// To set each enemy's skin
-	private CSpriteManager spr;
+//	private CSpriteManager spr;
 	
 	// List of enemies who are able to fire (the lowest of each column)
 	private List<GameObject> readyToFire;
@@ -78,7 +78,7 @@ public class CEnemyManager : MonoBehaviour {
 	
 	void Start () {
 		// There can only be ONE SpriteManager on-scene.
-		spr = GameObject.FindObjectOfType(typeof(CSpriteManager)) as CSpriteManager;
+//		spr = GameObject.FindObjectOfType(typeof(CSpriteManager)) as CSpriteManager;
 		
 		InitiateMatrixes();
 		
@@ -203,7 +203,8 @@ public class CEnemyManager : MonoBehaviour {
 		for(int i = 0; i < matrixWidth; i++){
 			for(int e = 0; e < matrixHeight; e++){
 				RealEnemyMatrix[i,e].GetComponent<CEnemy>().SetEnemyType(LogicEnemyMatrix[i,e]); // Set enemy's internal (enemy)type variable
-				spr.SetEnemySprite(ref RealEnemyMatrix[i,e],LogicEnemyMatrix[i,e]); // Set sprite according to type
+//				spr.SetEnemySprite(ref RealEnemyMatrix[i,e],LogicEnemyMatrix[i,e]); // Set sprite according to type
+				Managers.SpriteMgr.SetEnemySprite(ref RealEnemyMatrix[i,e],LogicEnemyMatrix[i,e]);
 				RealEnemyMatrix[i,e].GetComponent<CEnemy>().SetLogicCoordinates(i,e); // Match internal enemy coordinates, with the Logical ones
 			}
 		}
@@ -262,7 +263,8 @@ public class CEnemyManager : MonoBehaviour {
 		for(int i = 0; i < matrixWidth; i++){
 			for(int e = 0; e < matrixHeight; e++){
 				RealEnemyMatrix[i,e].GetComponent<CEnemy>().Move(movement); // call each enemy's Move()
-				spr.SwitchSpriteState(ref RealEnemyMatrix[i,e]); // switch the sprite image
+//				spr.SwitchSpriteState(ref RealEnemyMatrix[i,e]); // switch the sprite image
+				Managers.SpriteMgr.SwitchSpriteState(ref RealEnemyMatrix[i,e]);
 			}
 		}
 	}
@@ -292,7 +294,8 @@ public class CEnemyManager : MonoBehaviour {
 	// Someone was hit. Start destroying dudes according to color/type.
 	public void SequentialDestroy(int x, int y){
 		Debug.Log(x + " " + y + " was hit. It's of type: " + LogicEnemyMatrix[x,y]);
-		this.audio.Play();
+//		this.audio.Play();
+		Managers.Audio.PlaySound(AudioManager.Sounds.explosion);
 		int typeToDestroy = LogicEnemyMatrix[x,y];
 		int tempX;
 		int tempY;

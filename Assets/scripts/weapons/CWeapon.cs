@@ -57,7 +57,7 @@ public class CWeapon : MonoBehaviour {
 		if(shooting == true && loadedWeapon == true && Time.timeScale != 0.0f){
 			// Fire
 			if(Fire()){ // If it could fire, play sound, count the shot and unload
-				 this.audio.Play();
+				Managers.Audio.PlaySound(AudioManager.Sounds.fire, this.transform.position);
 				CWeapon.shots++;
 				loadedWeapon = false;
 			}

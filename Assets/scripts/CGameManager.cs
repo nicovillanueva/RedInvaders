@@ -5,8 +5,7 @@ public class CGameManager : MonoBehaviour {
 	
 	private CWeapon weap = null;
 	private CShip ship = null;
-	private CSpriteManager spr = null;
-	private CEnemyManager enemyMgr = null;
+//	private CSpriteManager spr = null;
 	
 	static private int remainingEnemies;
 	static private int score;
@@ -26,8 +25,7 @@ public class CGameManager : MonoBehaviour {
 	void Awake(){
 		weap = MonoBehaviour.FindObjectOfType(typeof(CWeapon)) as CWeapon;
 		ship = MonoBehaviour.FindObjectOfType(typeof(CShip)) as CShip;
-		spr = MonoBehaviour.FindObjectOfType(typeof(CSpriteManager)) as CSpriteManager;
-		enemyMgr = MonoBehaviour.FindObjectOfType(typeof(CEnemyManager)) as CEnemyManager;
+//		spr = MonoBehaviour.FindObjectOfType(typeof(CSpriteManager)) as CSpriteManager;
 		
 		CGameManager.paused = false;
 	}
@@ -39,10 +37,12 @@ public class CGameManager : MonoBehaviour {
 		
 		weap.SetFireDelay(initFireDelay); // Arbitrary delay.
 		weap.transform.position = ship.transform.position; // Align weapon with ship.
-		spr.SetUserSprite(ref ship); // set user's sprite
+//		spr.SetUserSprite(ref ship); // set user's sprite
+		Managers.SpriteMgr.SetUserSprite(ref ship);
 		
 		// background music
-		this.audio.Play();
+//		Managers.Audio.PlaySound(AudioManager.Sounds.bgm);
+		Managers.Audio.PlayBackground();
 	}
 	
 	// ----------
@@ -54,20 +54,21 @@ public class CGameManager : MonoBehaviour {
 		}
 		
 		if(Input.GetKeyDown(KeyCode.R)){
-			enemyMgr.ResetEnemies(true);
+			Managers.EnemyMgr.ResetEnemies(true);
+			
 			ResetGame();
 		}
 		
 		if(remainingEnemies <= 0){
-			enemyMgr.ResetEnemies(false);
+			Managers.EnemyMgr.ResetEnemies(false);
 			weap.SetFireDelay(weap.GetFireDelay()/2);
 		}
 		
 		// Time the accelerating of enemies.
 		tempT += Time.deltaTime;
-		if(tempT > acceleratingRate && enemyMgr.fireDelay > delayLimit){
-			enemyMgr.fireDelay -= acceleratingFactor;
-			enemyMgr.movementDelay -= acceleratingFactor;
+		if(tempT > acceleratingRate && Managers.EnemyMgr.fireDelay > delayLimit){
+			Managers.EnemyMgr.fireDelay -= acceleratingFactor;
+			Managers.EnemyMgr.movementDelay -= acceleratingFactor;
 			tempT = 0;
 		}
 	}
@@ -99,7 +100,7 @@ public class CGameManager : MonoBehaviour {
 	public void Respawn(int l){
 		if(l > 0){ // Only respawn if there are lives left.
 			ship.ResetPosition();
-			enemyMgr.ResetEnemies(true);
+			Managers.EnemyMgr.ResetEnemies(true);
 			CShip.SetLives(CShip.GetLives()-1);
 			weap.SetFireDelay(weap.GetFireDelay() + 0.3f);
 		}

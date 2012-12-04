@@ -44,12 +44,14 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\scripts\AudioManager.cs" />
      <Compile Include="Assets\scripts\CCamera.cs" />
      <Compile Include="Assets\scripts\CEnemyManager.cs" />
      <Compile Include="Assets\scripts\CGUI.cs" />
      <Compile Include="Assets\scripts\CGameManager.cs" />
      <Compile Include="Assets\scripts\CPool.cs" />
      <Compile Include="Assets\scripts\CSpriteManager.cs" />
+     <Compile Include="Assets\scripts\Managers.cs" />
      <Compile Include="Assets\scripts\actors\CEnemy.cs" />
      <Compile Include="Assets\scripts\actors\CShip.cs" />
      <Compile Include="Assets\scripts\actors\IActor.cs" />
