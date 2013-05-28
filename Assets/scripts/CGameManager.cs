@@ -7,10 +7,10 @@ public class CGameManager : MonoBehaviour {
 	private CShip ship = null;
 //	private CSpriteManager spr = null;
 	
-	static private int remainingEnemies;
-	static private int score;
+	private int remainingEnemies;
+	private int score;
 	
-	static public bool paused;
+	public bool paused;
 	
 	public int defaultLives;
 	
@@ -27,7 +27,7 @@ public class CGameManager : MonoBehaviour {
 		ship = MonoBehaviour.FindObjectOfType(typeof(CShip)) as CShip;
 //		spr = MonoBehaviour.FindObjectOfType(typeof(CSpriteManager)) as CSpriteManager;
 		
-		CGameManager.paused = false;
+		this.paused = false;
 	}
 	
 	// ----------
@@ -42,7 +42,7 @@ public class CGameManager : MonoBehaviour {
 		
 		// background music
 //		Managers.Audio.PlaySound(AudioManager.Sounds.bgm);
-		Managers.Audio.PlayBackground();
+//		Managers.Audio.PlayBackground();
 	}
 	
 	// ----------
@@ -75,7 +75,7 @@ public class CGameManager : MonoBehaviour {
 	
 	// ------------------------------
 	
-	static public void PauseSwitch(){
+	public void PauseSwitch(){
 		if(paused){
 			Time.timeScale = 1.0f; // Go on...
 			paused = false;
@@ -111,26 +111,26 @@ public class CGameManager : MonoBehaviour {
 	
 	// ----------
 	
-	static public int GetScore(){
-		return CGameManager.score;
+	public int GetScore(){
+		return this.score;
 	}
 	
 	// ----------
 	
-	static public void ModifyScore(int newscore){
-		CGameManager.score += newscore;
+	public void ModifyScore(int newscore){
+		this.score += newscore;
 	}
 	
 	// ----------
 	
-	static public void UpdateRemainingEnemies(int enemyNumber){
-		CGameManager.remainingEnemies = enemyNumber;
+	public void UpdateRemainingEnemies(int enemyNumber){
+		this.remainingEnemies = enemyNumber;
 	}
 	
 	// ----------
 	
-	static public int GetRemainingEnemies(){
-		return CGameManager.remainingEnemies;
+	public int GetRemainingEnemies(){
+		return this.remainingEnemies;
 	}
 	
 	// ----------

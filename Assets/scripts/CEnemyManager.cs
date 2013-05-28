@@ -110,7 +110,7 @@ public class CEnemyManager : MonoBehaviour {
 		}
 		
 		// If the game is not paused, time everything.
-		if(CGameManager.paused == false){
+		if(Managers.Game.paused == false){
 			// Timed moving
 			tempTimerMove += Time.deltaTime;
 			if(tempTimerMove > movementDelay){
@@ -177,7 +177,7 @@ public class CEnemyManager : MonoBehaviour {
 				aliveEnemies++;
 			}
 		}
-		CGameManager.UpdateRemainingEnemies(aliveEnemies);
+		Managers.Game.UpdateRemainingEnemies(aliveEnemies);
 	}
 	
 	// ----------
@@ -294,8 +294,6 @@ public class CEnemyManager : MonoBehaviour {
 	// Someone was hit. Start destroying dudes according to color/type.
 	public void SequentialDestroy(int x, int y){
 		Debug.Log(x + " " + y + " was hit. It's of type: " + LogicEnemyMatrix[x,y]);
-//		this.audio.Play();
-		Managers.Audio.PlaySound(AudioManager.Sounds.explosion);
 		int typeToDestroy = LogicEnemyMatrix[x,y];
 		int tempX;
 		int tempY;
@@ -431,19 +429,19 @@ public class CEnemyManager : MonoBehaviour {
 			// Up the score, according to in which row the enemy was.
 			switch(go.GetComponent<CEnemy>().GetY()){
 			case 0:
-				CGameManager.ModifyScore(row0Score);
+				Managers.Game.ModifyScore(row0Score);
 				break;
 			case 1:
-				CGameManager.ModifyScore(row1Score);
+				Managers.Game.ModifyScore(row1Score);
 				break;
 			case 2:
-				CGameManager.ModifyScore(row2Score);
+				Managers.Game.ModifyScore(row2Score);
 				break;
 			case 3:
-				CGameManager.ModifyScore(row3Score);
+				Managers.Game.ModifyScore(row3Score);
 				break;
 			default:
-				CGameManager.ModifyScore(1);
+				Managers.Game.ModifyScore(1);
 				break;
 			}
 			
@@ -479,10 +477,10 @@ public class CEnemyManager : MonoBehaviour {
 		
 		// Reward long chains.
 		int extraScore = (int)(Mathf.Pow(exponentialScore, chainKills));
-		CGameManager.ModifyScore(extraScore);
+		Managers.Game.ModifyScore(extraScore);
 		
 		// Update the remaining count in the GameManager
-		CGameManager.UpdateRemainingEnemies(aliveEnemies);
+		Managers.Game.UpdateRemainingEnemies(aliveEnemies);
 	}
 	
 	// ----------

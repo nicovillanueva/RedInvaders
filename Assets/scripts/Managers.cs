@@ -4,7 +4,7 @@ using UnityEngine;
 	[RequireComponent(typeof(CGameManager))]
 	[RequireComponent(typeof(CEnemyManager))]
 	[RequireComponent(typeof(CSpriteManager))]
-	[RequireComponent(typeof(AudioManager))]
+//	[RequireComponent(typeof(AudioManager))]
 
 public class Managers : MonoBehaviour {
 	
@@ -23,16 +23,16 @@ public class Managers : MonoBehaviour {
 		get { return spriteMgr; }
 	}
 	
-	private static AudioManager audioMgr;
-	public static AudioManager Audio{
-		get { return audioMgr; }
-	}
+//	private static AudioManager audioMgr;
+//	public static AudioManager Audio{
+//		get { return audioMgr; }
+//	}
 	
 	void Awake () {
 		gameMgr = GetComponent<CGameManager>();
 		enemyMgr = GetComponent<CEnemyManager>();
 		spriteMgr = GetComponent<CSpriteManager>();
-		audioMgr = GetComponent<AudioManager>();
+//		audioMgr = GetComponent<AudioManager>();
 		
 		DontDestroyOnLoad(gameObject);
 	}

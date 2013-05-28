@@ -35,6 +35,7 @@ public class CEnemy : MonoBehaviour {
 	void OnCollisionEnter(Collision coll){
 		if(coll.gameObject.tag == "user"){
 			this.transform.parent.GetComponent<CEnemyManager>().SequentialDestroy(this.matrX, this.matrY);
+			this.audio.Play();
 		}
 	}
 	

@@ -58,7 +58,7 @@ public class CShip : MonoBehaviour, IActor {
 		if(coll.gameObject.tag == "enemy"){
 //			DestroyMe();
 			this.audio.Play();
-			Managers.Audio.PlaySound(AudioManager.Sounds.explosion, this.transform.position);
+//			Managers.Audio.PlaySound(AudioManager.Sounds.explosion, this.transform.position);
 			Managers.Game.Respawn(lives);
 		}
 	}

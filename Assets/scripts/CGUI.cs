@@ -20,7 +20,9 @@ public class CGUI : MonoBehaviour {
 	
 	private int remainingEnemies;
 	
-	private float[] elapsedTime;
+	private float timer;
+	private string minutes;
+	private string seconds;
 	
 	void Awake(){
 		scrWid = Screen.width;
@@ -35,40 +37,39 @@ public class CGUI : MonoBehaviour {
 	}
 	
 	void Start(){
-		elapsedTime = new float[2]{0,0};
+		
 	}
 	
 	void Update(){
 		// Delay the updating, so we aren't calling the method all the time.
 		tempT += Time.deltaTime;
 		if(tempT > refreshDelay){
-			this.remainingEnemies = CGameManager.GetRemainingEnemies();
+			this.remainingEnemies = Managers.Game.GetRemainingEnemies();
 			tempT = 0.0f;
 		}
 		
-		// Calculate the elapsed time.
-		elapsedTime[1] += Time.deltaTime;
-		if(elapsedTime[1] >= 60.0f){
-			elapsedTime[1] = 0;
-			elapsedTime[0] += 1;
-		}
+		timer += Time.deltaTime;
+		minutes = Mathf.Floor(timer/60).ToString("00");
+		seconds = (timer % 60).ToString("00");
 	}
 	
+	// ----------
+		
 	void OnGUI(){
-		if(!CGameManager.paused){
+		if(!Managers.Game.paused){
 			// GUI while the game is running
-			GUI.Box(statsRect, "Time: " + (int)elapsedTime[0] + ":" + (int)elapsedTime[1] + 
+			GUI.Box(statsRect, "Time: " + minutes + ":" + seconds + 
 							   "\n\nRemaining: " + this.remainingEnemies +
 							   "\nShots fired: " + CWeapon.GetShotsFired() + 
 							   "\nAccuracy: " + CWeapon.GetAccuracy() + "%" // The accuracy is refreshed on each confirmed hit.
 				);
-			GUI.Box(scoreRect,"Score: " + CGameManager.GetScore());
+			GUI.Box(scoreRect,"Score: " + Managers.Game.GetScore());
 			GUI.Box(livesRect,"Lives: " + CShip.GetLives());
 		}
-		else if(CGameManager.paused){
+		else if(Managers.Game.paused){
 			// GUI while the game is paused.
 			if(GUI.Button(new Rect((scrWid/2)-(boxWid/2), (scrHei/2)-(boxHei/2), boxWid, boxHei/3), "Continue")){
-				CGameManager.PauseSwitch();
+				Managers.Game.PauseSwitch();
 			}
 			if(GUI.Button(new Rect((scrWid/2)-(boxWid/2), (scrHei/2)-(boxHei/6)+5, boxWid, boxHei/3), "Close game")){
 				Application.Quit();

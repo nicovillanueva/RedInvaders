@@ -10,7 +10,8 @@ public class AudioManager : MonoBehaviour {
 	}
 	
 	private GameObject emitter;
-	private AudioSource source;
+	private AudioSource sourceOld;
+
 	
 	public AudioClip fire;
 	public AudioClip backgroundMusic;
@@ -18,35 +19,46 @@ public class AudioManager : MonoBehaviour {
 	public AudioClip explosion1;
 	public AudioClip explosion2;
 	
+	public int sourcesLimit;
+	public float defaultVolume = 1.0f;
+	public bool linearRolloff = true;
+	
+	private GameObject[] emitters;
+	private AudioSource[] sources;
+	
+	// ----------
+	
 	public void PlaySound(Sounds sound, Vector3 emitterPos){
 		emitter.transform.position = emitterPos;
 		
 		switch(sound){
 			case Sounds.fire:
-				source.clip = fire;
+				sourceOld.clip = fire;
 				break;
 			
 			case Sounds.bgm:
-				source.clip = backgroundMusic;
+				sourceOld.clip = backgroundMusic;
 				break;
 			
 			case Sounds.explosion:
 				int r = Random.Range(0,10);
 				if(r < 5){
-					source.clip = explosion1;
+					sourceOld.clip = explosion1;
 				}
 				else{
-					source.clip = explosion2;
+					sourceOld.clip = explosion2;
 				}
 				break;
 		}
 		
-		source.Play();
+		sourceOld.Play();
 	}
 
 	public void PlaySound(Sounds sound){
 		PlaySound(sound, Camera.main.transform.position);
 	}
+	
+	// ----------
 	
 	public void PlayBackground(){
 		Camera.main.gameObject.AddComponent<AudioSource>();
@@ -57,9 +69,36 @@ public class AudioManager : MonoBehaviour {
 		Camera.main.gameObject.GetComponent<AudioSource>().Play();
 	}
 	
+	// ------------------------------
+	
+	/// <summary>
+	/// Creates the Audio emitters their sources.
+	/// </summary>
+	/// <param name='srcAmount'>
+	/// Amount of audio emitters/sources to be created (limit). Simultaneous sounds possible to be played at the same time.
+	/// </param>
+	
+	private void CreateObjects(int srcAmount){
+		emitters = new GameObject[srcAmount];
+		
+		for(int i = 0; i < emitters.Length; i++){
+			emitters[i] = new GameObject("Emitter " + i);
+			emitters[i].transform.parent = this.transform;
+			
+			emitters[i].AddComponent<AudioSource>();
+			if(linearRolloff){
+				emitters[i].GetComponent<AudioSource>().rolloffMode = AudioRolloffMode.Linear;
+			}
+			emitters[i].GetComponent<AudioSource>().volume = defaultVolume;
+		}
+	}
+	
+	
 	void Awake () {
-		emitter = new GameObject("Audio Emitter");
-		source = emitter.AddComponent<AudioSource>();
-		source.rolloffMode = AudioRolloffMode.Linear;
+		if(sourcesLimit <= 0){
+			sourcesLimit = 1;
+		}
+		
+		CreateObjects(sourcesLimit);
 	}
 }
